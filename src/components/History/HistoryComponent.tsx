@@ -1,7 +1,6 @@
 import "./HistoryComponent.css";
-import MainComponent from '../Main/MainComponent';
 import React, { useEffect, useState } from "react";
-import moment, { Moment } from 'moment-timezone'
+import PipeService from "../../pipes/pipe.service";
 import {
   IonCol,
   IonIcon,
@@ -12,24 +11,22 @@ import {
   IonList,
   IonItem,
   IonLabel,
-  IonToast
+  IonToast,
 } from "@ionic/react";
 import { searchOutline, trashOutline } from "ionicons/icons";
-import { render } from "react-dom";
 
 type MyType = {
-  id:number,
-  city:string,
-  country:string,
-  dateTime:string
-}
+  id: number;
+  city: string;
+  country: string;
+  dateTime: string;
+};
 interface ContainerProps {
   historyDatas: Array<MyType>;
-  onSearchWeatherData : any
+  onSearchWeatherData: any;
 }
 
 const HistoryComponent: React.FC<ContainerProps> = (props) => {
-
   // History list get from localStorage
   const [showToast, setShowToast] = useState(false);
   const [showToastMsg, setToastMsg] = useState("");
@@ -38,77 +35,60 @@ const HistoryComponent: React.FC<ContainerProps> = (props) => {
       id: 1,
       city: "London",
       country: "GB",
-      dateTime: moment(new Date()).format('h:mm a'),
+      dateTime: PipeService.convertDateTimeWithType("time"),
     },
     {
       id: 2,
       city: "Singapore",
       country: "SG",
-      dateTime: moment(new Date()).format('h:mm a'),
+      dateTime: PipeService.convertDateTimeWithType("time"),
     },
     {
       id: 3,
       city: "Johor",
       country: "MY",
-      dateTime: moment(new Date()).format('h:mm a'),
+      dateTime: PipeService.convertDateTimeWithType("time"),
     },
     {
       id: 4,
       city: "Australia",
       country: "AU",
-      dateTime: moment(new Date()).format('h:mm a'),
-    }
+      dateTime: PipeService.convertDateTimeWithType("time"),
+    },
   ]);
 
+  useEffect(() => {
+    combineHistoryData();
+  }, [props]);
 
-
-  useEffect(()=>{
-      combineHistoryData();
-  },[props])
-
-  const combineHistoryData = () =>{
-    console.log('props.historyDatas',props.historyDatas);
-    console.log('history',history);
-
+  const combineHistoryData = () => {
     var arraybf = history.concat(props.historyDatas);
 
-    arraybf.map((res,index) =>{
-      res['id']=index+1;
+    arraybf.map((res, index) => {
+      res["id"] = index + 1;
+      res["city"] = PipeService.setCapitialize(res.city);
       return res;
-    })
+    });
 
     setHistory(arraybf);
-
-    console.log("history DAta",history);
-  }
-
-  // useEffect(()=>{
-  //   // combineHistoryData();
-  // },[history])
-
+  };
 
   const searchWeather = (data) => {
     const searchData = {
       city: data.city,
       country: data.country,
-    }
+    };
 
-    props.onSearchWeatherData(searchData)
-
+    props.onSearchWeatherData(searchData);
   };
 
   const deleteHistory = (removeData) => {
-    
-    console.log("removeData", removeData);
-    let filteredData = history.filter(data => data.id != removeData.id);
-    console.log('filteredData',filteredData);
+    let filteredData = history.filter((data) => data.id != removeData.id);
     setHistory(filteredData);
-    console.log('history',history);
     setToastMsg("Removed successfully");
     setShowToast(true);
   };
 
-  
   return (
     <div>
       {history.length > 0 ? (
@@ -121,10 +101,10 @@ const HistoryComponent: React.FC<ContainerProps> = (props) => {
                   <IonList>
                     {history.map((data) => (
                       <IonItem className="itemBox">
-                        <IonLabel className="txt-countrycity" >
+                        <IonLabel className="txt-countrycity">
                           {data.city}, {data.country}
                         </IonLabel>
-                        <div className="txt-time" slot="end" >
+                        <div className="txt-time" slot="end">
                           {data.dateTime}
                         </div>
                         <div className="icon-div" slot="end">
@@ -156,7 +136,11 @@ const HistoryComponent: React.FC<ContainerProps> = (props) => {
               <IonRow>
                 <IonCol className="col-12">
                   <div className="container history-container text-center">
-                    <img src="assets/errors/noHistory.png" height={150} width={150} />
+                    <img
+                      src="assets/errors/noHistory.png"
+                      height={150}
+                      width={150}
+                    />
                     <div className="txt-noData">History is empty</div>
                     <div className="txt-noDataInfo">
                       Data will store automatically. Once the valid city and
@@ -173,14 +157,12 @@ const HistoryComponent: React.FC<ContainerProps> = (props) => {
       <IonToast
         isOpen={showToast}
         onDidDismiss={() => setShowToast(false)}
-        duration = {2000}
+        duration={2000}
         message={showToastMsg}
         position="bottom"
       />
-
-
     </div>
   );
 };
 
-export default HistoryComponent ;
+export default HistoryComponent;

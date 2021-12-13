@@ -1,4 +1,4 @@
-  .search-container > input {
+  .search-container>input {
     border: 0;
     outline: none;
     width: 100%;
@@ -7,42 +7,43 @@
     height: 40px;
     margin: 15px 0;
   }
-  
-  .search-container > input::placeholder {
+
+  .search-container>input::placeholder {
     font-size: 12px;
     color: #9d9d9f;
   }
 
-  .search-container > input[type="text"] {
+  .search-container>input[type="text"] {
     padding: 0 50px;
   }
-  .search-container > input[type="text"]:focus {
+
+  .search-container>input[type="text"]:focus {
     border: 1px solid #115efa;
   }
 
-  .search-container > .icon{
+  .search-container>.icon {
     position: absolute;
     top: 28px;
     left: 22px;
     font-size: 24px;
   }
 
-  .default-alert{
-    --background: #ffffff!important;   
-    --color:#FF0000!important;
-    --border-radius:5px!important;
+  .default-alert {
+    --background: #ffffff !important;
+    --color: #FF0000 !important;
+    --border-radius: 5px !important;
 
- }
+  }
 
- .default-alert > .alert-wrapper > .alert-head{
-    --color:#ffffff!important;
-    --background: #161e2c!important; 
- }
+  .default-alert>.alert-wrapper>.alert-head {
+    --color: #ffffff !important;
+    --background: #161e2c !important;
+  }
 
- ion-alert.default-alert {
+  ion-alert.default-alert {
     --background: #801ce4;
   }
 
-  .action-container{
+  .action-container {
     margin: 12px 0;
   }
