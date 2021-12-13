@@ -6,7 +6,7 @@ import { render } from '@testing-library/react';
 
 interface ContainerProps { 
     onSaveWeatherData: (arg0: { city: string; country: string; }) => void
-    
+    // locationData : any
 }
 
 const SearchComponent: React.FC<ContainerProps> = (props) => {
@@ -54,7 +54,7 @@ const SearchComponent: React.FC<ContainerProps> = (props) => {
           city : city,
           country : country,
         }
-
+        // props.locationData(userData);
         props.onSaveWeatherData(userData);
         clearAll();
     

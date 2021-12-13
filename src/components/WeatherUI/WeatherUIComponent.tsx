@@ -103,7 +103,6 @@ const WeatherUIComponent: React.FC<ContainerProps> = (props) => {
                         <IonCol className="col-12">
                             <div className="container">
                                 <div className="weather-container text-center">
-
                                     <img src="assets/errors/noData.png" height={200} width={200} />
                                     <div className="txt-noData">There is no weather to display</div>
                                     <div className="txt-noDataInfo">Please key-in the correct city and country inorder to get the weather.</div>

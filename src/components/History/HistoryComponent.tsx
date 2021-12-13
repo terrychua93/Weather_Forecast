@@ -1,6 +1,6 @@
 import "./HistoryComponent.css";
 import MainComponent from '../Main/MainComponent';
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import moment, { Moment } from 'moment-timezone'
 import {
   IonCol,
@@ -15,12 +15,21 @@ import {
   IonToast
 } from "@ionic/react";
 import { searchOutline, trashOutline } from "ionicons/icons";
+import { render } from "react-dom";
+
+type MyType = {
+  id:number,
+  city:string,
+  country:string,
+  dateTime:string
+}
 interface ContainerProps {
-  historyData: any;
+  historyDatas: Array<MyType>;
   onSearchWeatherData : any
 }
 
 const HistoryComponent: React.FC<ContainerProps> = (props) => {
+
   // History list get from localStorage
   const [showToast, setShowToast] = useState(false);
   const [showToastMsg, setToastMsg] = useState("");
@@ -52,15 +61,31 @@ const HistoryComponent: React.FC<ContainerProps> = (props) => {
   ]);
 
 
-  // if(props.historyData.length != 0){
-  //   setHistory(history.concat([{id: 5, city: 'London', country: 'GB', dateTime: '5:55 pm'}]));
-  // }
 
+  useEffect(()=>{
+      combineHistoryData();
+  },[props])
 
+  const combineHistoryData = () =>{
+    console.log('props.historyDatas',props.historyDatas);
+    console.log('history',history);
 
-  
-  console.log("props.historyData", props.historyData);
-  console.log("history", history);
+    var arraybf = history.concat(props.historyDatas);
+
+    arraybf.map((res,index) =>{
+      res['id']=index+1;
+      return res;
+    })
+
+    setHistory(arraybf);
+
+    console.log("history DAta",history);
+  }
+
+  // useEffect(()=>{
+  //   // combineHistoryData();
+  // },[history])
+
 
   const searchWeather = (data) => {
     const searchData = {
@@ -83,6 +108,7 @@ const HistoryComponent: React.FC<ContainerProps> = (props) => {
     setShowToast(true);
   };
 
+  
   return (
     <div>
       {history.length > 0 ? (
@@ -93,12 +119,12 @@ const HistoryComponent: React.FC<ContainerProps> = (props) => {
                 <IonCol className="col-12">
                   <div className="txt-historyTitle">Search History</div>
                   <IonList>
-                    {history.map((data, index) => (
+                    {history.map((data) => (
                       <IonItem className="itemBox">
-                        <IonLabel className="txt-countrycity">
+                        <IonLabel className="txt-countrycity" >
                           {data.city}, {data.country}
                         </IonLabel>
-                        <div className="txt-time" slot="end">
+                        <div className="txt-time" slot="end" >
                           {data.dateTime}
                         </div>
                         <div className="icon-div" slot="end">
@@ -146,6 +172,7 @@ const HistoryComponent: React.FC<ContainerProps> = (props) => {
 
       <IonToast
         isOpen={showToast}
+        onDidDismiss={() => setShowToast(false)}
         duration = {2000}
         message={showToastMsg}
         position="bottom"

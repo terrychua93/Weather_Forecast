@@ -13,17 +13,18 @@ const MainComponent: React.FC<ContainerProps> = () => {
   const [weatherInfo, setWeatherInfo] = useState(undefined);
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState('');
-  const [historyData, storeHistory] = useState();
+  const [historyData, storeHistory] = useState([]);
   const [showLoading, setShowLoading] = useState(false);
 
   const addHistoryItem=(data : any) => {
-    var addHistoryData = data;
-    addHistoryData['dateTime'] = moment(new Date()).format('h:mm a').toUpperCase();
-    storeHistory(addHistoryData)
+    data['dateTime'] = moment(new Date()).format('h:mm a').toUpperCase();
+
+    storeHistory([data]);
+    storeHistory([]);
   }
   
 
-  const saveWeatherDataHandler = (data : any) =>{
+  const saveWeatherDataHandler = (data : any, storeHistory?: boolean) =>{
     
     return new Promise((resolve,reject)=>{
       WeatherService.getWeatherBySearch(data).then(response => {
@@ -38,9 +39,9 @@ const MainComponent: React.FC<ContainerProps> = () => {
         response['dateTime'] = moment(new Date()).tz(timeDateresult.timezones[0]).format('D MMM YYYY, h:mm a')
 
         setWeatherInfo(response);
-
-
-        addHistoryItem(data);
+        if(storeHistory){
+          addHistoryItem(data);
+        }
         resolve(response);
       }).catch((error)=>{
         setWeatherInfo(undefined);
@@ -52,16 +53,16 @@ const MainComponent: React.FC<ContainerProps> = () => {
 
   const historySearchWeather = async (data : any) =>{
     setShowLoading(true);
-    await saveWeatherDataHandler(data);
+    await saveWeatherDataHandler(data,false);
     setShowLoading(false);
   }
 
 
   return (
     <div className="container">
-      <SearchComponent  onSaveWeatherData={saveWeatherDataHandler}/>
+      <SearchComponent  onSaveWeatherData={(data)=> saveWeatherDataHandler(data,true)} />
       <WeatherUIComponent weatherInfo={weatherInfo}/>
-      <HistoryComponent historyData={historyData} onSearchWeatherData={historySearchWeather}/>
+      <HistoryComponent historyDatas={historyData} onSearchWeatherData={historySearchWeather}/>
       <IonAlert
                 isOpen={showAlert}
                 onDidDismiss={() => setShowAlert(false)}
