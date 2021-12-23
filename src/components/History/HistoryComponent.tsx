@@ -99,8 +99,8 @@ const HistoryComponent: React.FC<ContainerProps> = (props) => {
                 <IonCol className="col-12">
                   <div className="txt-historyTitle">Search History</div>
                   <IonList>
-                    {history.map((data) => (
-                      <IonItem className="itemBox">
+                    {history.map((data,index) => (
+                      <IonItem className="itemBox" key={index}>
                         <IonLabel className="txt-countrycity">
                           {data.city}, {data.country}
                         </IonLabel>
