@@ -1,0 +1,40 @@
+.hydrated {
+    visibility: initial;
+}
+
+.txt-historyTitle {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #5260ff;
+}
+
+.itemBox>.txt-countrycity {
+    font-size: 0.9rem;
+}
+
+.itemBox>.txt-time {
+    font-size: 0.9rem;
+}
+
+.itemBox>.icon-div>.icon {
+    margin: 0px 5px;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+.itemBox>.icon-div>.icon:hover {
+    transition: .1s ease-in-out;
+    --ion-color-base: #5260ff !important;
+}
+
+.history-container .txt-noData {
+    font-size: 1.5rem;
+    color: rgb(59, 59, 59);
+}
+
+.history-container .txt-noDataInfo {
+    font-size: 0.9rem;
+    color: rgb(148, 148, 148);
+    margin-top: 5px;
+
+}

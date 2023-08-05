@@ -1,0 +1,7 @@
+{
+  "name": "weather_forecast_reactjs",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
